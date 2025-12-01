@@ -1,0 +1,626 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Privacy Super Guard</title>
+  <script src="theme-init.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1220;
+      --panel: #111a2f;
+      --accent: #4ac1c5;
+      --muted: #7c8bac;
+      --danger: #f87171;
+      --warn: #fbbf24;
+      --safe: #34d399;
+      --text: #f7f9fd;
+      --card: #1c2944;
+      --purple: #a78bfa;
+      --blue: #60a5fa;
+    }
+    
+    body.light-theme, html.light-theme body {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --panel: #e8ecf2;
+      --accent: #0891b2;
+      --muted: #64748b;
+      --danger: #ef4444;
+      --warn: #f59e0b;
+      --safe: #10b981;
+      --text: #1e293b;
+      --card: #ffffff;
+      --purple: #8b5cf6;
+      --blue: #3b82f6;
+    }
+    
+    body.light-theme .quick-btn.primary, html.light-theme .quick-btn.primary {
+      background: linear-gradient(120deg, var(--accent), #06b6d4);
+      color: white;
+    }
+    
+    body.light-theme .toggle-slider, html.light-theme .toggle-slider {
+      background-color: #cbd5e1;
+    }
+    
+    body.light-theme input[type="text"], html.light-theme input[type="text"] {
+      background: rgba(0, 0, 0, 0.05);
+      border-color: rgba(0, 0, 0, 0.1);
+    }
+    
+    body.light-theme input[type="text"]:focus, html.light-theme input[type="text"]:focus {
+      border-color: var(--accent);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 12px;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at 20% 20%, rgba(74,193,197,0.15), transparent 40%), var(--bg);
+      color: var(--text);
+      min-width: 360px;
+      max-width: 420px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    h1::before {
+      content: "◎";
+      color: var(--accent);
+      font-size: 14px;
+    }
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .header-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .current-site {
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .current-site span {
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .quick-actions {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .quick-btn {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    .quick-btn.primary {
+      background: linear-gradient(120deg, var(--accent), #3da3f5);
+      color: #0c1220;
+    }
+    .quick-btn.secondary {
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .quick-btn.active {
+      background: var(--safe);
+      color: #0c1220;
+    }
+    .quick-btn:hover {
+      transform: translateY(-1px);
+    }
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+      background: var(--card);
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 36px;
+      height: 18px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #444;
+      border-radius: 18px;
+      transition: 0.3s;
+    }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 12px;
+      width: 12px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    .toggle-switch input:checked + .toggle-slider {
+      background-color: var(--safe);
+    }
+    .toggle-switch input:checked + .toggle-slider:before {
+      transform: translateX(18px);
+    }
+    .stats-row {
+      display: flex;
+      justify-content: space-around;
+      background: var(--card);
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(74,193,197,0.2);
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+    .stat-label {
+      font-size: 9px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .risk-badge {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .risk-low { background: rgba(52,211,153,0.2); color: var(--safe); }
+    .risk-medium { background: rgba(251,191,36,0.2); color: var(--warn); }
+    .risk-high { background: rgba(248,113,113,0.2); color: var(--danger); }
+    .risk-critical { background: rgba(239,68,68,0.3); color: #ef4444; animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    .section {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+    .section-title {
+      font-size: 11px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 6px 0;
+    }
+    .label { color: var(--muted); font-size: 12px; }
+    .value { font-weight: 600; }
+    .pill {
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .pill.low { background: rgba(52,211,153,0.15); color: var(--safe); }
+    .pill.med { background: rgba(251,191,36,0.18); color: var(--warn); }
+    .pill.high { background: rgba(248,113,113,0.18); color: var(--danger); }
+    .category-chart {
+      display: flex;
+      gap: 4px;
+      margin: 8px 0;
+      height: 24px;
+    }
+    .category-bar {
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 600;
+      min-width: 24px;
+      transition: flex 0.3s ease;
+    }
+    .bar-ads { background: rgba(248,113,113,0.3); color: var(--danger); }
+    .bar-analytics { background: rgba(251,191,36,0.3); color: var(--warn); }
+    .bar-social { background: rgba(96,165,250,0.3); color: var(--blue); }
+    .bar-fp { background: rgba(167,139,250,0.3); color: var(--purple); }
+    .bar-other { background: rgba(124,139,172,0.3); color: var(--muted); }
+    .fp-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin: 8px 0;
+    }
+    .fp-item {
+      background: rgba(255,255,255,0.03);
+      border-radius: 6px;
+      padding: 6px;
+      text-align: center;
+    }
+    .fp-count {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .fp-label {
+      font-size: 9px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    button {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(120deg, var(--accent), #3da3f5);
+      color: #0c1220;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.15s ease;
+    }
+    button:hover { transform: translateY(-1px); box-shadow: 0 8px 16px rgba(0,0,0,0.25); }
+    button:active { transform: translateY(0); }
+    button.secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: none;
+    }
+    button.danger {
+      background: linear-gradient(120deg, var(--danger), #dc2626);
+      color: white;
+    }
+    .button-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .inline-controls {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .small {
+      padding: 8px;
+      font-size: 12px;
+      width: auto;
+    }
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .pill-list .pill {
+      background: rgba(74,193,197,0.1);
+      color: var(--accent);
+      border: 1px solid rgba(74,193,197,0.2);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .pill-list .pill:hover {
+      background: rgba(74,193,197,0.2);
+    }
+    ul {
+      padding-left: 16px;
+      margin: 6px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    ul li { margin: 3px 0; }
+    #status {
+      font-size: 12px;
+      color: var(--muted);
+      min-height: 16px;
+      margin-top: 8px;
+      text-align: center;
+    }
+    .recommendations {
+      margin-top: 8px;
+    }
+    .rec-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 6px;
+      margin: 4px 0;
+      background: rgba(255,255,255,0.02);
+      border-radius: 6px;
+      font-size: 11px;
+    }
+    .rec-priority {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+    .rec-priority.critical { background: #ef4444; }
+    .rec-priority.high { background: var(--danger); }
+    .rec-priority.medium { background: var(--warn); }
+    .rec-priority.low { background: var(--safe); }
+    .collapsible-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .collapsible-content.expanded {
+      max-height: 500px;
+    }
+    .expand-icon {
+      transition: transform 0.3s ease;
+      font-size: 10px;
+    }
+    .expand-icon.rotated {
+      transform: rotate(180deg);
+    }
+    .webrtc-warning {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 6px;
+      padding: 8px;
+      margin: 8px 0;
+      font-size: 11px;
+      color: var(--danger);
+    }
+  </style>
+</head>
+<body>
+  <div class="header-row">
+    <h1>Privacy Super Guard</h1>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <button id="themeToggle" class="quick-btn secondary" title="Toggle light/dark theme" style="width: auto; margin: 0; padding: 6px 8px; font-size: 14px;">🌙</button>
+      <span class="risk-badge risk-low" id="overallRisk">LOW RISK</span>
+    </div>
+  </div>
+  
+  <div class="header-meta">
+    <div class="current-site">Site: <span id="currentSite">—</span></div>
+    <div id="lastScan">Last scan: —</div>
+  </div>
+
+  <div class="quick-actions">
+    <button class="quick-btn primary" id="quickProtectBtn">🛡️ Quick Protect</button>
+    <button class="quick-btn secondary" id="refreshBtn">🔄 Refresh</button>
+    <button class="quick-btn secondary" id="autoRefreshBtn">▶ Auto Refresh</button>
+    <button class="quick-btn secondary" id="exportBtn">📤 Export</button>
+  </div>
+
+  <div class="toggle-row">
+    <div class="toggle-label">
+      <span>🛡️</span>
+      <span>Auto-Block Trackers</span>
+    </div>
+    <label class="toggle-switch">
+      <input type="checkbox" id="autoBlockToggle" checked>
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
+  <div class="toggle-row">
+    <div class="toggle-label">
+      <span>🔒</span>
+      <span>Block Fingerprinting</span>
+    </div>
+    <label class="toggle-switch">
+      <input type="checkbox" id="protectionToggle">
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
+  <div class="stats-row" id="blockingStats">
+    <div class="stat-item">
+      <span class="stat-value" id="blockedThisSession">0</span>
+      <span class="stat-label">Blocked (Session)</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="blockedTotal">0</span>
+      <span class="stat-label">Total Blocked</span>
+    </div>
+  </div>
+
+  <div class="section" id="cookiesSection">
+    <div class="section-header" data-target="cookiesContent">
+      <span class="section-title">🍪 Cookies</span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="value" id="cookieCount">—</span>
+        <span class="pill" id="cookieSeverity">LOW</span>
+        <span class="expand-icon">▼</span>
+      </div>
+    </div>
+    <div class="collapsible-content expanded" id="cookiesContent">
+      <ul>
+        <li id="thirdPartyCookieLine">Third-party cookies: —</li>
+        <li id="trackingCookieLine">Tracking cookies: —</li>
+        <li id="insecureCookieLine">Insecure cookies: —</li>
+        <li id="sessionCookieLine">Session cookies: —</li>
+        <li id="sameSiteNoneLine">SameSite=None w/o Secure: —</li>
+        <li id="longLivedCookieLine">Long-lived cookies: —</li>
+      </ul>
+      <div class="button-row">
+        <button id="clearCookies">Clear All</button>
+        <button class="danger" id="blockHighRiskCookies">Block High-Risk</button>
+      </div>
+      <button class="secondary" id="clearStorage" style="margin-top: 4px;">Clear Storage</button>
+    </div>
+  </div>
+
+  <div class="section" id="scriptsSection">
+    <div class="section-header" data-target="scriptsContent">
+      <span class="section-title">📜 Tracker Scripts</span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="value" id="scriptCount">—</span>
+        <span class="pill" id="scriptSeverity">LOW</span>
+        <span class="expand-icon">▼</span>
+      </div>
+    </div>
+    <div class="collapsible-content expanded" id="scriptsContent">
+      <div class="category-chart" id="categoryChart"></div>
+      <div class="row" style="font-size: 10px; color: var(--muted);">
+        <span>🔴 Ads</span>
+        <span>🟡 Analytics</span>
+        <span>🔵 Social</span>
+        <span>🟣 Fingerprint</span>
+      </div>
+      <ul id="scriptList"></ul>
+      <button id="blockTrackers">Block Tracker Domains</button>
+      <div class="row" style="margin-top:8px;">
+        <div class="label">Network rule matches</div>
+        <div class="value" id="ruleMatchCount">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="fingerprintSection">
+    <div class="section-header" data-target="fingerprintContent">
+      <span class="section-title">🔍 Fingerprinting</span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="value" id="fingerprintCount">—</span>
+        <span class="pill" id="fingerprintSeverity">LOW</span>
+        <span class="expand-icon">▼</span>
+      </div>
+    </div>
+    <div class="collapsible-content expanded" id="fingerprintContent">
+      <div class="fp-grid">
+        <div class="fp-item">
+          <div class="fp-count" id="fpCanvas">0</div>
+          <div class="fp-label">Canvas</div>
+        </div>
+        <div class="fp-item">
+          <div class="fp-count" id="fpWebgl">0</div>
+          <div class="fp-label">WebGL</div>
+        </div>
+        <div class="fp-item">
+          <div class="fp-count" id="fpAudio">0</div>
+          <div class="fp-label">Audio</div>
+        </div>
+        <div class="fp-item">
+          <div class="fp-count" id="fpNavigator">0</div>
+          <div class="fp-label">Navigator</div>
+        </div>
+        <div class="fp-item">
+          <div class="fp-count" id="fpScreen">0</div>
+          <div class="fp-label">Screen</div>
+        </div>
+        <div class="fp-item">
+          <div class="fp-count" id="fpFonts">0</div>
+          <div class="fp-label">Fonts</div>
+        </div>
+      </div>
+      <div id="webrtcWarning" class="webrtc-warning" style="display: none;">
+        ⚠️ WebRTC IP Leak Detected! Your real IP may be exposed.
+      </div>
+      <button class="danger" id="blockFingerprinting">Block Fingerprinting APIs</button>
+    </div>
+  </div>
+
+  <div class="section" id="recommendationsSection">
+    <div class="section-header" data-target="recommendationsContent">
+      <span class="section-title">💡 Recommendations</span>
+      <span class="expand-icon">▼</span>
+    </div>
+    <div class="collapsible-content" id="recommendationsContent">
+      <div class="recommendations" id="recList"></div>
+    </div>
+  </div>
+
+  <div class="section" id="controlsSection">
+    <div class="section-header" data-target="controlsContent">
+      <span class="section-title">⚙️ Controls</span>
+      <span class="expand-icon">▼</span>
+    </div>
+    <div class="collapsible-content" id="controlsContent">
+      <div class="button-row" style="margin-bottom: 8px;">
+        <button class="secondary" id="overlayToggle">Show Overlay</button>
+        <button class="secondary" id="whitelistBtn">Whitelist Site</button>
+      </div>
+      <div class="inline-controls">
+        <input type="text" id="trackerInput" placeholder="Add tracker domain (e.g. tracker.com)" />
+        <button class="small" id="addTrackerBtn">Add</button>
+      </div>
+      <div class="label" style="margin-top:8px;">Your custom tracker domains:</div>
+      <div class="pill-list" id="userTrackerList"></div>
+    </div>
+  </div>
+
+  <div id="status"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

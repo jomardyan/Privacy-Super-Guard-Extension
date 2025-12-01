@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Privacy Super Guard</title>
+    <style>
+        :root {
+            --bg: #0b1220;
+            --card: #1c2944;
+            --accent: #4ac1c5;
+            --text: #f7f9fd;
+            --muted: #7c8bac;
+            --purple: #a78bfa;
+        }
+        body {
+            margin: 0;
+            font-family: "Segoe UI", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(120deg, var(--accent), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--muted);
+            margin-bottom: 40px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .card {
+            background: var(--card);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: left;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        h3 { margin: 0 0 10px 0; color: var(--accent); }
+        p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 0.95rem; }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(120deg, var(--accent), #3da3f5);
+            color: #0b1220;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Privacy Super Guard</h1>
+        <div class="subtitle">Thank you for installing! You are now protected.</div>
+        
+        <div class="grid">
+            <div class="card">
+                <span class="icon">🛡️</span>
+                <h3>Auto-Blocking</h3>
+                <p>We automatically block over 40+ major trackers and ad networks before they even load on the page.</p>
+            </div>
+            <div class="card">
+                <span class="icon">🕵️</span>
+                <h3>Anti-Fingerprinting</h3>
+                <p>We disguise your device identity by randomizing Canvas, Audio, and WebGL data to prevent tracking.</p>
+            </div>
+            <div class="card">
+                <span class="icon">📊</span>
+                <h3>Real-time Insights</h3>
+                <p>Click the extension icon anytime to see exactly what's being blocked on the current website.</p>
+            </div>
+        </div>
+
+        <a href="#" class="btn" id="closeBtn">Start Browsing</a>
+        <p style="margin-top: 20px; font-size: 0.9rem; color: var(--muted);">Pin the extension to your toolbar for easy access!</p>
+    </div>
+    <script src="welcome.js"></script>
+</body>
+</html>

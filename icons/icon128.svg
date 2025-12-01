@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="shieldGrad128" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ac1c5"/>
+      <stop offset="40%" style="stop-color:#3da3f5"/>
+      <stop offset="100%" style="stop-color:#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="shieldInner128" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0.15)"/>
+      <stop offset="100%" style="stop-color:rgba(255,255,255,0.05)"/>
+    </linearGradient>
+    <linearGradient id="eyeGrad128" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="50%" style="stop-color:#f0f9fa"/>
+      <stop offset="100%" style="stop-color:#e0f7fa"/>
+    </linearGradient>
+    <linearGradient id="irisGrad128" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60a5fa"/>
+      <stop offset="50%" style="stop-color:#4ac1c5"/>
+      <stop offset="100%" style="stop-color:#34d399"/>
+    </linearGradient>
+    <radialGradient id="pupilGrad128" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" style="stop-color:#1c2944"/>
+      <stop offset="100%" style="stop-color:#0b1220"/>
+    </radialGradient>
+    <filter id="glow128" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="innerShadow128">
+      <feOffset dx="0" dy="2"/>
+      <feGaussianBlur stdDeviation="3" result="offset-blur"/>
+      <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"/>
+      <feFlood flood-color="black" flood-opacity="0.2" result="color"/>
+      <feComposite operator="in" in="color" in2="inverse" result="shadow"/>
+      <feComposite operator="over" in="shadow" in2="SourceGraphic"/>
+    </filter>
+    <filter id="shadow128">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  
+  <!-- Background glow -->
+  <ellipse cx="64" cy="64" rx="50" ry="50" fill="rgba(74,193,197,0.1)" filter="url(#glow128)"/>
+  
+  <!-- Shield shadow -->
+  <path d="M64 10L16 26v32c0 28 20 52 48 60 28-8 48-32 48-60V26L64 10z" 
+        fill="rgba(0,0,0,0.3)" transform="translate(2, 3)"/>
+  
+  <!-- Shield main -->
+  <path d="M64 8L16 24v32c0 28 20 52 48 60 28-8 48-32 48-60V24L64 8z" 
+        fill="url(#shieldGrad128)" filter="url(#shadow128)"/>
+  
+  <!-- Shield inner glow -->
+  <path d="M64 16L24 29v27c0 23 16.5 43 40 50 23.5-7 40-27 40-50V29L64 16z" 
+        fill="url(#shieldInner128)"/>
+  
+  <!-- Shield border -->
+  <path d="M64 16L24 29v27c0 23 16.5 43 40 50 23.5-7 40-27 40-50V29L64 16z" 
+        fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+  
+  <!-- Shield top highlight -->
+  <path d="M64 16L24 29v8c8-2 24-6 40-6s32 4 40 6v-8L64 16z" 
+        fill="rgba(255,255,255,0.12)"/>
+  
+  <!-- Shield bottom shadow -->
+  <path d="M64 106c23.5-7 40-27 40-50v-4c-10 3-26 8-40 8s-30-5-40-8v4c0 23 16.5 43 40 50z" 
+        fill="rgba(0,0,0,0.1)"/>
+  
+  <!-- Eye container glow -->
+  <ellipse cx="64" cy="56" rx="28" ry="18" fill="rgba(74,193,197,0.25)" filter="url(#glow128)"/>
+  
+  <!-- Eye white (sclera) -->
+  <ellipse cx="64" cy="56" rx="24" ry="16" fill="url(#eyeGrad128)" filter="url(#innerShadow128)"/>
+  
+  <!-- Eye shadow bottom -->
+  <ellipse cx="64" cy="58" rx="20" ry="12" fill="rgba(0,0,0,0.05)"/>
+  
+  <!-- Iris outer ring -->
+  <circle cx="64" cy="56" r="11" fill="#0b1220"/>
+  
+  <!-- Iris main -->
+  <circle cx="64" cy="56" r="9.5" fill="url(#irisGrad128)"/>
+  
+  <!-- Iris pattern -->
+  <circle cx="64" cy="56" r="9.5" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5">
+    <animate attributeName="r" values="9.5;9;9.5" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Pupil -->
+  <circle cx="64" cy="56" r="5" fill="url(#pupilGrad128)"/>
+  
+  <!-- Eye reflections -->
+  <circle cx="60" cy="52" r="2.5" fill="white" opacity="0.9"/>
+  <circle cx="68" cy="58" r="1.2" fill="white" opacity="0.5"/>
+  <ellipse cx="64" cy="50" rx="6" ry="1" fill="white" opacity="0.15"/>
+  
+  <!-- Decorative eyelid lines -->
+  <path d="M40 56c0-10 10.7-18 24-18s24 8 24 18" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <path d="M40 56c0 10 10.7 18 24 18s24-8 24-18" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+  
+  <!-- Shield edge highlight -->
+  <path d="M64 8L16 24v2l48-14 48 14v-2L64 8z" fill="rgba(255,255,255,0.3)"/>
+</svg>
