@@ -2,7 +2,8 @@
   "manifest_version": 3,
   "name": "Privacy Super Guard",
   "version": "0.3.0",
-  "description": "Advanced privacy protection: auto-blocks trackers before loading, detects fingerprinting, and provides detailed privacy insights. Compatible with Chrome and Edge.",
+  "homepage_url": "https://github.com/jomardyan/Privacy-Super-Guard-Extension",
+  "description": "Advanced privacy protection: auto-blocks trackers, detects fingerprinting, and provides detailed privacy insights.",
   "action": {
     "default_title": "Privacy Super Guard",
     "default_popup": "popup.html",

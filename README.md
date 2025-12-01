@@ -1,5 +1,7 @@
 # Privacy Insight Extension - Complete Implementation Guide
 
+**Repository:** [https://github.com/jomardyan/Privacy-Super-Guard-Extension](https://github.com/jomardyan/Privacy-Super-Guard-Extension)
+
 ## 🎉 What's New (v0.3.0)
 
 ### 1. **Beautiful Icons** 
