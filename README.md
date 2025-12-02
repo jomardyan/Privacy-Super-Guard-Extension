@@ -1,291 +1,181 @@
-# Privacy Insight Extension - Complete Implementation Guide
+# Privacy Super Guard
 
-**Repository:** [https://github.com/jomardyan/Privacy-Super-Guard-Extension](https://github.com/jomardyan/Privacy-Super-Guard-Extension)
+Advanced browser privacy protection with automatic tracker blocking, fingerprinting detection, and detailed privacy insights.
 
-## 🎉 What's New (v0.3.0)
+[![License](https://img.shields.io/badge/License-Proprietary-red)](LICENSE)
+[![Version](https://img.shields.io/github/v/release/jomardyan/Privacy-Super-Guard-Extension)](https://github.com/jomardyan/Privacy-Super-Guard-Extension/releases)
 
-### 1. **Beautiful Icons** 
-Created professional SVG icons in multiple sizes:
-- **16x16px** - Browser toolbar icon
-- **32x32px** - Context menu icon  
-- **48x48px** - Medium resolution
-- **128x128px** - High resolution (with gradients and animations)
+## Why Privacy Super Guard?
 
-**Features:**
-- Gradient fills with teal → cyan → purple color scheme
-- Eye symbol representing privacy monitoring
-- Shield background for protection concept
-- Animated iris that pulses slightly
+Privacy Super Guard provides comprehensive, real-time protection against tracking, fingerprinting, and privacy invasions. Monitor exactly what's being blocked and understand your privacy exposure across all websites you visit.
 
-**Location:** `/icons/icon*.svg`
+## Key Features
 
-**Generate PNG versions:** Open `icons/generate-icons.html` in a browser to export PNG files
+- **Automatic tracker blocking** — blocks known tracking domains and scripts using declarativeNetRequest rules
+- **Fingerprinting detection** — identifies and reports attempts to fingerprint your browser
+- **Cookie management** — view, filter, and delete cookies with granular control
+- **Privacy score** — real-time assessment of website privacy practices
+- **Detailed statistics** — track blocked requests by type (trackers, ads, analytics, fingerprinting)
+- **Per-site controls** — allowlist trusted sites or enable strict mode for high-risk domains
+- **Dark mode support** — interface adapts to system theme preferences
+- **Zero external dependencies** — all protection runs locally in your browser
 
-### 2. **Auto-Blocking Trackers**
-Blocks 40+ major tracking domains **before they load**:
+## Installation
 
-**Categories blocked:**
-- 🔴 Google Analytics & Google Ads
-- 🔵 Facebook/Meta trackers
-- 🟡 Advertising networks (Criteo, Taboola, etc.)
-- 🟣 Fingerprinting services (BlueKai, Tapad, etc.)
-- 🟢 Other analytics & tracking
+### From Source
 
-**Rules:** `/rules.json` (40 blocking rules)
-
-**How it works:**
-1. Extension loads static ruleset from `rules.json`
-2. Blocks matching domains using declarativeNetRequest API
-3. Works **before** content even starts loading
-4. No performance impact - rules run at network layer
-
-### 3. **Performance Optimization**
-Fixed the high RAM/CPU issue:
-
-**Problems eliminated:**
-- ❌ Storage access spamming (1000s of messages/sec)
-- ❌ Frequent method wrapping (measureText, isPointInPath)
-- ❌ Unbounded event array growth
-- ❌ Immediate message dispatch (now batched)
-
-**Optimizations:**
-- ✅ Message batching (1-2 second intervals)
-- ✅ Event array size limits
-- ✅ Automatic memory cleanup
-- ✅ Conservative fingerprinting detection
-- ✅ Periodic tab data cleanup
-
-**Performance Impact:**
-- Before: 500+ MB RAM, 90%+ CPU
-- After: 50-80 MB RAM, <5% CPU (estimated)
-
-## 📦 Files Structure
-
-```
-xt3/
-├── manifest.json              # Extension configuration
-├── background.js              # Service worker (32 KB)
-├── content.js                 # Page content script (9 KB)
-├── fingerprint-probe.js       # Fingerprinting detector (6 KB)
-├── popup.html                 # Popup UI
-├── popup.js                   # Popup logic
-├── rules.json                 # Auto-blocking rules
-├── trackers.json              # Tracker database
-├── PERFORMANCE_NOTES.md       # Performance details
-├── icons/
-│   ├── icon16.svg
-│   ├── icon32.svg
-│   ├── icon48.svg
-│   ├── icon128.svg
-│   └── generate-icons.html    # PNG generator tool
-└── TESTING.md
+```bash
+git clone https://github.com/jomardyan/Privacy-Super-Guard-Extension.git
+cd Privacy-Super-Guard-Extension
 ```
 
-## 🚀 Installation
+1. Open Chrome or Edge and navigate to `chrome://extensions/` or `edge://extensions/`
+2. Enable "Developer mode" in the top right
+3. Click "Load unpacked" and select the repository folder
+4. The Privacy Super Guard icon appears in your toolbar
 
-### Chrome/Edge:
-1. Go to `chrome://extensions/` or `edge://extensions/`
-2. Enable "Developer mode" (top right)
-3. Click "Load unpacked"
-4. Select the `xt3/` folder
-5. Extension should appear in toolbar
+## Quick Start
 
-### Verification:
-- ✓ Check for shield icon in toolbar
-- ✓ Click to open popup
-- ✓ See blocking statistics
-- ✓ Visit a website to test
+1. Click the Privacy Super Guard icon to open the popup
+2. View the current page's privacy score and blocked request statistics
+3. Browse the **Trackers** tab to see detected tracking attempts
+4. Check **Fingerprinting** tab for canvas/WebGL/audio fingerprinting detections
+5. Use **Cookies** tab to manage site cookies
+6. Configure global settings in the **Settings** tab
 
-## 🎮 Usage Guide
+## Usage
 
-### Popup Features
+### Privacy Dashboard
 
-**Quick Buttons:**
-- 🛡️ **Quick Protect** - Apply all protections at once
-- 🔄 **Refresh** - Manually update findings
-- ▶ **Auto Refresh** - Enable 5-second auto-refresh
-- 📤 **Export** - Save privacy report as JSON
+The popup interface provides real-time insights:
 
-**Settings:**
-- **Auto-Block Trackers** - Toggle pre-blocking (ON by default)
-- **Block Fingerprinting** - Toggle fingerprinting protection
-- **Show Overlay** - Display in-page statistics card
+- **Privacy Score** — composite rating based on trackers, fingerprinting, and cookies
+- **Blocked Requests** — categorized by type (ads, analytics, social trackers)
+- **Active Protection** — toggle protection on/off for current site
 
-**Sections:**
-1. **🍪 Cookies** - Third-party, tracking, insecure cookies
-2. **📜 Tracker Scripts** - Detected tracking scripts by category
-3. **🔍 Fingerprinting** - Canvas, WebGL, Audio, Navigator attempts
-4. **💡 Recommendations** - Priority-based privacy suggestions
-5. **⚙️ Controls** - Custom tracker management, whitelisting
+### Tracker Blocking
 
-### Advanced Controls
+Privacy Super Guard blocks requests to known tracking domains automatically:
 
-**Add Custom Trackers:**
-```
-Example: tracker.evil-company.com
-```
-- Useful for blocking sites not in default list
-- Stored locally in extension storage
+- Advertising trackers (Google Ads, DoubleClick, Criteo)
+- Analytics platforms (Google Analytics, Facebook Pixel, Hotjar)
+- Social media trackers (Facebook, Twitter, LinkedIn widgets)
+- Third-party data aggregators
 
-**Whitelist Sites:**
-- Some websites may break with blocking
-- Whitelist button temporarily disables protections for current site
-
-**Toggle Auto-Blocking:**
-- Disabled auto-blocking for better website compatibility
-- Still shows detection & manual controls
-
-## 🔧 Technical Details
-
-### Auto-Blocking (declarativeNetRequest)
-- Uses Chrome's native blocking API (more efficient than content scripts)
-- Blocks `script`, `xmlhttprequest`, `image`, `sub_frame`, `ping` resources
-- Rules applied instantly before network request
+View blocked requests in the **Trackers** tab with domain, type, and timestamp.
 
 ### Fingerprinting Detection
-- **Canvas**: `toDataURL()`, `toBlob()`, `getImageData()`
-- **WebGL**: `getParameter()`, `getExtension()`, `readPixels()`
-- **Audio**: `AudioContext`, `OfflineAudioContext` construction
-- **Navigator**: `userAgent`, `deviceMemory`, `hardwareConcurrency`
-- **WebRTC**: `RTCPeerConnection` IP leak detection
 
-### Storage
-- Settings: `chrome.storage.local`
-- Tab findings: In-memory `Map` (cleared on tab close)
-- Auto-cleanup: Data older than 15 minutes removed automatically
+The extension detects common fingerprinting techniques:
 
-## ⚡ Performance Tips
+- **Canvas fingerprinting** — monitors canvas API calls that extract unique device signatures
+- **WebGL fingerprinting** — detects graphics card identification attempts
+- **Audio fingerprinting** — identifies audio context API abuse
+- **Font fingerprinting** — tracks font enumeration attempts
 
-1. **Disable on trusted sites:**
-   - Click "Whitelist Site" for sites you trust
-   - Reduces blocking overhead
+### Cookie Management
 
-2. **Turn off fingerprinting detection:**
-   - If you notice slowness, disable "Block Fingerprinting"
-   - Fingerprinting detection is the most CPU-intensive feature
+Inspect and control cookies for any domain:
 
-3. **Auto-refresh:**
-   - Only enable when actively testing
-   - Refreshes drain CPU even on idle sites
-
-4. **Memory usage:**
-   - Extension cleans up automatically
-   - If memory grows, restart the extension (toggle on/off)
-
-## 🐛 Troubleshooting
-
-**Issue: Website doesn't load**
-- Solution: Whitelist the site in popup controls
-
-**Issue: High CPU usage**
-- Solution: Disable "Block Fingerprinting"
-- Solution: Whitelist high-traffic sites
-
-**Issue: Missing icons**
-- Solution: Open `icons/generate-icons.html` and export PNGs
-- Save as `icon16.png`, `icon32.png`, `icon48.png`, `icon128.png`
-
-**Issue: Auto-blocking not working**
-- Verify: Toggle "Auto-Block Trackers" on/off in popup
-- Check: Visit tracker domain (e.g., google-analytics.com)
-- Blocked requests show in "Rule Matches" section
-
-## 📊 Privacy Report Export
-
-Click **"Export"** to get detailed JSON report:
-```json
-{
-  "url": "https://example.com",
-  "domain": "example.com",
-  "riskLevel": "HIGH",
-  "riskScore": 67,
-  "cookies": {
-    "total": 25,
-    "thirdParty": 12,
-    "tracking": 8
-  },
-  "trackers": [
-    {
-      "domain": "google-analytics.com",
-      "category": "analytics",
-      "riskScore": 45
-    }
-  ],
-  "recommendations": [...]
-}
+```javascript
+// Cookies are displayed with:
+// - Name, value, domain, path
+// - Expiration date and security flags
+// - Delete individual or bulk delete options
 ```
 
-## 🔐 Privacy & Permissions
+### Per-Site Controls
 
-**Permissions Used:**
-- `cookies` - Read cookie names & properties
-- `tabs` - Access current tab URL
-- `storage` - Save settings locally
-- `scripting` - Inject detection scripts
-- `declarativeNetRequest` - Block network requests
+Customize protection levels:
 
-**Data Storage:**
-- All data stored locally (no cloud sync)
-- Never sent to external servers
-- Cleared automatically on browser restart
+- **Allowlist** — disable blocking for trusted sites
+- **Strict mode** — enhanced protection for sensitive browsing
+- **Custom rules** — add domain-specific blocking patterns
 
-## 🎨 Customization
+## Configuration
 
-### Change Icon Colors
-Edit SVG files and modify gradient stops:
-```svg
-<stop offset="0%" style="stop-color:#4ac1c5"/>  <!-- Teal -->
-<stop offset="100%" style="stop-color:#3da3f5"/> <!-- Cyan -->
-```
+Access settings via the **Settings** tab in the popup:
 
-### Add More Blocking Rules
-Edit `rules.json` and add rules following the pattern:
+- **Global protection** — enable/disable all blocking (default: enabled)
+- **Block third-party cookies** — prevent cross-site cookie tracking
+- **Auto-delete cookies** — clear cookies when closing sites
+- **Strict fingerprinting protection** — more aggressive detection (may break some sites)
+- **Show notifications** — alert when high-risk tracking is detected
+- **Theme** — auto, light, or dark mode
+
+### Advanced Settings
+
+Edit `rules.json` to customize blocking rules:
+
 ```json
 {
-  "id": 41,
+  "id": 1,
   "priority": 1,
   "action": { "type": "block" },
   "condition": {
-    "urlFilter": "||newtracker.com^",
+    "urlFilter": "||tracking-domain.com^",
     "resourceTypes": ["script", "xmlhttprequest"]
   }
 }
 ```
 
-### Modify Tracker Categories
-Edit `trackers.json` to add/remove tracker domains:
-```json
-{
-  "trackers": {
-    "custom_category": ["domain1.com", "domain2.com"]
-  }
-}
-```
+## Permissions
 
-## 📝 Version History
+- `cookies` — read and manage cookies for privacy analysis
+- `scripting` — inject fingerprinting detection scripts
+- `declarativeNetRequest` — block tracker requests at the network level
+- `declarativeNetRequestFeedback` — report on blocked requests
+- `declarativeNetRequestWithHostAccess` — apply rules to all domains
+- `storage` — persist settings and statistics
+- `activeTab` — analyze privacy for the current tab
+- `tabs` — monitor protection across all tabs
+- `<all_urls>` — enable comprehensive protection across all websites
 
-### v0.3.0
-- ✨ Beautiful SVG icons
-- 🛡️ Auto-blocking tracker domains
-- ⚡ Performance optimization (fixed RAM/CPU issue)
-- 📊 Blocking statistics
-- 🎨 Enhanced UI with gradient backgrounds
+## Privacy
 
-### v0.2.0
-- Original extension version
+Privacy Super Guard operates entirely locally. No browsing data, statistics, or settings are transmitted to external servers. All tracker lists and fingerprinting detection logic run in your browser. See [PRIVACY_POLICY.md](PRIVACY_POLICY.md) for complete details.
 
-## 🤝 Support & Issues
+## Development
 
-For issues:
-1. Check `PERFORMANCE_NOTES.md`
-2. Verify manifest permissions
-3. Test in incognito mode
-4. Check browser console (F12)
+### File Structure
 
-## 📄 License
+- `background.js` — service worker managing tracker blocking and statistics
+- `content.js` — content script for fingerprinting detection
+- `fingerprint-probe.js` — injected script monitoring fingerprinting APIs
+- `popup.html/js` — main interface and dashboard
+- `rules.json` — declarativeNetRequest blocking rules
+- `trackers.json` — known tracker domain database
+- `manifest.json` — extension configuration
 
-MIT License - Feel free to modify and distribute
+### Testing
 
----
+Test tracker blocking:
 
-**Happy Privacy Protecting! 🛡️**
+1. Visit a news site or social media platform
+2. Open Privacy Super Guard popup
+3. Verify blocked requests in the Trackers tab
+
+Test fingerprinting detection:
+
+1. Visit a fingerprinting test site (e.g., browserleaks.com)
+2. Check the Fingerprinting tab for detected attempts
+
+## Known Limitations
+
+- Some legitimate services may be blocked if they share domains with trackers
+- Strict fingerprinting protection may cause visual glitches on canvas-heavy sites
+- Third-party cookie blocking can interfere with some login flows
+
+Use per-site allowlists to resolve compatibility issues.
+
+## Contributing
+
+This is a proprietary project. The source code is provided for transparency and personal use only. Modifications, redistribution, and commercial use are prohibited. See [LICENSE](LICENSE) for details.
+
+## License
+
+Proprietary License with Usage Rights — Free to use, prohibited from modification and redistribution. See [LICENSE](LICENSE) file.
+
+## Author
+
+© 2025 Hayk Jomardyan. All rights reserved.
