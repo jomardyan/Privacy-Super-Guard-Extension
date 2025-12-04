@@ -1,17 +1,17 @@
 {
   "manifest_version": 3,
   "name": "Privacy Super Guard",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "homepage_url": "https://github.com/jomardyan/Privacy-Super-Guard-Extension",
   "description": "Advanced privacy protection: auto-blocks trackers, detects fingerprinting, and provides detailed privacy insights.",
   "action": {
     "default_title": "Privacy Super Guard",
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "icons/icon16.svg",
-      "32": "icons/icon32.svg",
-      "48": "icons/icon48.svg",
-      "128": "icons/icon128.svg"
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
     }
   },
   "background": {
@@ -59,9 +59,9 @@
     }
   ],
   "icons": {
-    "16": "icons/icon16.svg",
-    "32": "icons/icon32.svg",
-    "48": "icons/icon48.svg",
-    "128": "icons/icon128.svg"
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   }
 }
